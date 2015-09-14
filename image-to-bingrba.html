@@ -76,7 +76,7 @@ The 3DS screens are rotated -90 degrees. To fix that, the tool rotates your imag
 <br>
 
 <script>
-f.onchange=load.onclick=rotate.onchange=alpha.onchange=function(){
+f.onchange=load.onclick=rotate.onchange=alpha.onchange=grba.onchange=function(){
   with(new FileReader){
 		readAsDataURL(f.files[0]);
 		onload=function(){
@@ -98,22 +98,18 @@ f.onchange=load.onclick=rotate.onchange=alpha.onchange=function(){
 		  d=x.getImageData(0,0,W,H).data;
 		  b='';
 		  for(i=0;i<d.length;i+=4){
-			if (!grba.checked){
-		   
+			if (grba.checked){
+		   		b+=String.fromCharCode(d[i+2], d[i+1], d[i], d[i+3]);
+			}else{
 				if(alpha.checked){
 					b+=String.fromCharCode(d[i+3]);
 				}
 			   
 				b+=String.fromCharCode(d[i+2], d[i+1], d[i]);
-			}else{
-				b+=String.fromCharCode(d[i+2], d[i+1], d[i]);
-				if(alpha.checked){
-				  b+=String.fromCharCode(d[i+3]);
-				}
 			}
-		  a.href="data:application/octet-stream;base64,"+btoa(b);
-		}
-	  }
+			a.href="data:application/octet-stream;base64,"+btoa(b);
+		  }
+	    }
 	}
 }
 </script>
